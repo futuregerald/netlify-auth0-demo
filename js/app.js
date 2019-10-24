@@ -11,6 +11,7 @@ const configureClient = async () => {
 };
 
 window.onload = async () => {
+  await configureClient();
   const isAuthenticated = await auth0.isAuthenticated();
 
   if (isAuthenticated) {
