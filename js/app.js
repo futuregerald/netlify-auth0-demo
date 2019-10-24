@@ -9,40 +9,57 @@ const configureClient = async () => {
     client_id: config.clientId,
   });
 };
+
 window.onload = async () => {
-  await configureClient();
+  // .. code ommited for brevity
+
+  updateUI();
+
   const isAuthenticated = await auth0.isAuthenticated();
 
   if (isAuthenticated) {
     // show the gated content
+    return;
   }
+
+  // NEW - check for the code and state parameters
   const query = window.location.search;
   if (query.includes('code=') && query.includes('state=')) {
     // Process the login state
     await auth0.handleRedirectCallback();
 
+    updateUI();
+
     // Use replaceState to redirect the user away and remove the querystring parameters
     window.history.replaceState({}, document.title, '/');
   }
-  updateUI();
 };
 
+// NEW
 const updateUI = async () => {
   const isAuthenticated = await auth0.isAuthenticated();
 
-  if (window.location.pathname === '/profile/') {
+  document.getElementById('btn-logout').disabled = !isAuthenticated;
+  document.getElementById('btn-login').disabled = isAuthenticated;
+
+  if (isAuthenticated) {
+    document.getElementById('gated-content').classList.remove('hidden');
+
     document.getElementById(
       'ipt-access-token'
     ).innerHTML = await auth0.getTokenSilently();
+
+    document.getElementById('ipt-user-profile').innerHTML = JSON.stringify(
+      await auth0.getUser()
+    );
   } else {
-    document.getElementById('btn-logout').disabled = !isAuthenticated;
-    document.getElementById('btn-login').disabled = isAuthenticated;
+    document.getElementById('gated-content').classList.add('hidden');
   }
 };
 
 const login = async () => {
   await auth0.loginWithRedirect({
-    redirect_uri: 'https://netlify-auth0-demo.netlify.com/profile/',
+    redirect_uri: window.location.origin,
   });
 };
 
