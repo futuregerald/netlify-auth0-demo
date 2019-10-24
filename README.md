@@ -1,0 +1,1 @@
+Simple example of protecting a directory using netlify role based access control along with Auth0 for authentication.
