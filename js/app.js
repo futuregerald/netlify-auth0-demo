@@ -1,5 +1,5 @@
-let auth0 = null;
-const fetchAuthConfig = () => fetch('/js/auth_config.json');
+const auth0 = null;
+const fetchAuthConfig = () => fetch('/auth_config.json');
 const configureClient = async () => {
   const response = await fetchAuthConfig();
   const config = await response.json();
@@ -9,9 +9,9 @@ const configureClient = async () => {
     client_id: config.clientId,
   });
 };
-
 window.onload = async () => {
   await configureClient();
+  updateUI();
   const isAuthenticated = await auth0.isAuthenticated();
 
   if (isAuthenticated) {
@@ -31,12 +31,13 @@ window.onload = async () => {
     window.history.replaceState({}, document.title, '/');
   }
 };
-
-// NEW
 const updateUI = async () => {
+  const isAuthenticated = await auth0.isAuthenticated();
+
   document.getElementById('btn-logout').disabled = !isAuthenticated;
   document.getElementById('btn-login').disabled = isAuthenticated;
 
+  // NEW - add logic to show/hide gated content after authentication
   if (isAuthenticated) {
     document.getElementById('gated-content').classList.remove('hidden');
 
