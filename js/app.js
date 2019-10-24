@@ -17,8 +17,6 @@ window.onload = async () => {
 const updateUI = async () => {
   const isAuthenticated = await auth0.isAuthenticated();
 
-  document.getElementById('btn-logout').disabled = !isAuthenticated;
-  document.getElementById('btn-login').disabled = isAuthenticated;
   if (window.location.pathname === '/profile/') {
     document.getElementById(
       'ipt-access-token'
@@ -26,6 +24,9 @@ const updateUI = async () => {
     document.getElementById('ipt-user-profile').innerHTML = JSON.stringify(
       await auth0.getUser()
     );
+  } else {
+    document.getElementById('btn-logout').disabled = !isAuthenticated;
+    document.getElementById('btn-login').disabled = isAuthenticated;
   }
 };
 
