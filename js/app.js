@@ -34,9 +34,6 @@ const updateUI = async () => {
     document.getElementById(
       'ipt-access-token'
     ).innerHTML = await auth0.getTokenSilently();
-    document.getElementById('ipt-user-profile').innerHTML = JSON.stringify(
-      await auth0.getUser()
-    );
   } else {
     document.getElementById('btn-logout').disabled = !isAuthenticated;
     document.getElementById('btn-login').disabled = isAuthenticated;
