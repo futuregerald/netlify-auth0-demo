@@ -21,11 +21,10 @@ window.onload = async () => {
     // Process the login state
     await auth0.handleRedirectCallback();
 
-    updateUI();
-
     // Use replaceState to redirect the user away and remove the querystring parameters
     window.history.replaceState({}, document.title, '/');
   }
+  updateUI();
 };
 
 const updateUI = async () => {
