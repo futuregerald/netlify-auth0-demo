@@ -1,3 +1,5 @@
+import { access } from 'fs';
+
 let auth0 = null;
 const fetchAuthConfig = () => fetch('/js/auth_config.json');
 const configureClient = async () => {
@@ -39,6 +41,8 @@ const updateUI = async () => {
 
   // NEW - add logic to show/hide gated content after authentication
   if (isAuthenticated) {
+    const accessToken = await auth0.getTokenSilently();
+    console.log(accessToken);
     document.getElementById('gated-content').classList.remove('hidden');
 
     document.getElementById(
