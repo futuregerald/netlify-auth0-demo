@@ -11,7 +11,21 @@ const configureClient = async () => {
 };
 window.onload = async () => {
   await configureClient();
-  updateUI();
+  const isAuthenticated = await auth0.isAuthenticated();
+
+  if (isAuthenticated) {
+    // show the gated content
+  }
+  const query = window.location.search;
+  if (query.includes('code=') && query.includes('state=')) {
+    // Process the login state
+    await auth0.handleRedirectCallback();
+
+    updateUI();
+
+    // Use replaceState to redirect the user away and remove the querystring parameters
+    window.history.replaceState({}, document.title, '/');
+  }
 };
 
 const updateUI = async () => {
