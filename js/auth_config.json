@@ -1,5 +1,4 @@
 {
   "domain": "netlify-auth0-jwt.auth0.com",
-  "clientId": "N3cfTC5KgnXwXo3K9P0NEY2f7Dk8QOyp",
-  "audience": "https://netlify-auth0-jwt.auth0.com/api/v2/"
+  "clientId": "N3cfTC5KgnXwXo3K9P0NEY2f7Dk8QOyp"
 }

@@ -39,7 +39,9 @@ const updateUI = async () => {
 
   // NEW - add logic to show/hide gated content after authentication
   if (isAuthenticated) {
-    const accessToken = await auth0.getTokenSilently();
+    const accessToken = await auth0.getTokenSilently({
+      audience: 'https://netlify-auth0-jwt.auth0.com/api/v2/'
+    });
     console.log(accessToken);
     document.getElementById('gated-content').classList.remove('hidden');
 
